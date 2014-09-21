@@ -28,7 +28,14 @@ namespace GSpchGen
 
             
             //Read text from text.txt
-            sText = File.ReadAllText(Environment.CurrentDirectory + @"\text.txt", Encoding.UTF8);
+             if (args.Count() > 0)
+            {
+                sText = File.ReadAllText(args[0], Encoding.UTF8);
+            }
+            else
+            {
+                sText = File.ReadAllText(Environment.CurrentDirectory + @"\text.txt", Encoding.UTF8);
+            }
             
             //Detect Language
             using (WebClient wcLang = new WebClient())
@@ -43,8 +50,8 @@ namespace GSpchGen
             }
 
             uriMp3 = new Uri("http://translate.google.cn/translate_tts?tl=" + sLang + "&q=" + sText);  
-            sMp3Path = Environment.CurrentDirectory + @"\res\sound\tmp.mp3";
-            sWavPath=Environment.CurrentDirectory+@"\res\sound\"+sText+".wav";
+            sMp3Path = Environment.CurrentDirectory + @"tmp.mp3";
+            sWavPath=Environment.CurrentDirectory+@"\..\res\sound\"+sText+".wav";
 
             //Get MP3 from Google
             using (WebClient wcMp3Speech = new WebClient())
@@ -60,12 +67,12 @@ namespace GSpchGen
             }
 
             //Now copy the WAV to speech.wav
-            if (File.Exists(Environment.CurrentDirectory + @"\res\sound\speech.wav"))
+            if (File.Exists(Environment.CurrentDirectory + @"\..\res\sound\speech.wav"))
             {
-                File.Delete(Environment.CurrentDirectory + @"\res\sound\speech.wav");
+                File.Delete(Environment.CurrentDirectory + @"\..\res\sound\speech.wav");
             }
 
-            File.Copy(sWavPath, Environment.CurrentDirectory + @"\res\sound\speech.wav");
+            File.Copy(sWavPath, Environment.CurrentDirectory + @"\..\res\sound\speech.wav");
         }
     }
 }
