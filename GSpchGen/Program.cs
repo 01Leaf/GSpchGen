@@ -19,7 +19,7 @@ namespace GSpchGen
     {
         static void Main(string[] args)
         {
-            string sLang = "en";
+            string sLang = "zh-CN";
             string sText = "";
             
             Uri uriMp3;
@@ -34,11 +34,11 @@ namespace GSpchGen
             using (WebClient wcLang = new WebClient())
             {
                 wcLang.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 9.0; Windows;)");
-                Uri uriLang = new Uri("http://translate.google.com/translate_a/t?client=t&sl=auto&text=" + sText);
+                Uri uriLang = new Uri("http://translate.google.cn/translate_a/t?client=t&sl=auto&text=" + sText);
                 
                 wcLang.DownloadFile(uriLang, "lang.txt");
                 string parseResult = Utils.GetLang(File.ReadAllText("lang.txt"));
-                if (parseResult == "") { parseResult = "en"; }
+                if (parseResult == "") { parseResult = "zh-CN"; }
                 sLang = parseResult;
             }
 
