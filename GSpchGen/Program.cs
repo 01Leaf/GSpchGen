@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
-using System.Globalization;
 
 //NAudio
 using NAudio;
@@ -22,22 +21,26 @@ namespace GSpchGen
         {
             string sLang = "en";
             string sText = "";
+            
             Uri uriMp3;
             string sMp3Path;
             string sWavPath;
 
-
+            
             //Read text from text.txt
             sText = File.ReadAllText(Environment.CurrentDirectory + @"\text.txt", Encoding.UTF8);
-
-            //TODO: Detect Language
-            //using (WebClient wcLang = new WebClient())            
-            //{
-            //    Uri uriLang = new Uri("http://translate.google.com/translate_a/t?client=t&sl=auto&text=" + sText);
-            //    wcLang.DownloadFile(uriLang, "lang.txt");
-            //    Console.WriteLine(File.ReadAllText("lang.txt"));
-            //    Console.ReadLine();
-            //}
+            
+            //Detect Language
+            using (WebClient wcLang = new WebClient())
+            {
+                wcLang.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 9.0; Windows;)");
+                Uri uriLang = new Uri("http://translate.google.com/translate_a/t?client=t&sl=auto&text=" + sText);
+                
+                wcLang.DownloadFile(uriLang, "lang.txt");
+                string parseResult = Utils.GetLang(File.ReadAllText("lang.txt"));
+                if (parseResult == "") { parseResult = "en"; }
+                sLang = parseResult;
+            }
 
             uriMp3 = new Uri("http://translate.google.cn/translate_tts?tl=" + sLang + "&q=" + sText);  
             sMp3Path = Environment.CurrentDirectory + @"\res\sound\tmp.mp3";
@@ -46,6 +49,7 @@ namespace GSpchGen
             //Get MP3 from Google
             using (WebClient wcMp3Speech = new WebClient())
             {
+                wcMp3Speech.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 9.0; Windows;)");
                 wcMp3Speech.DownloadFile(uriMp3, sMp3Path);
             }
 

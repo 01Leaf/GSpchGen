@@ -1,1 +1,1 @@
-[[["ã ‚ã‚Œ","ã ‚ã‚Œ","",""]],,"en",,,,,,[["en"]],1]
+[[["I'm happy","je suis content","",""]],,"fr",,[["I'm happy",[1],true,false,325,0,3,0]],[["je suis content",1,[["I'm happy",325,true,false],["I am happy",3,true,false],["I am glad",0,true,false],["I am pleased",0,true,false]],[[0,15]],"je suis content"]],,,[["fr"]],2]
